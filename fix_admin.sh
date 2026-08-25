@@ -1,3 +1,5 @@
+#!/bin/bash
+cat << 'INNER_EOF' > src/layouts/AdminLayout.tsx
 import { SEO } from '../components/seo/SEO';
 import React from 'react';
 import { Outlet, Navigate, Link, useLocation } from 'react-router-dom';
@@ -115,3 +117,4 @@ export function AdminLayout() {
     </div>
   );
 }
+INNER_EOF

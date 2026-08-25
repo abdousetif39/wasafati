@@ -12,9 +12,24 @@ import { Modal } from '../../components/ui/Modal';
 import { getAuthErrorMessage } from '../../lib/authErrors';
 import { useSettingsStore } from '../../store/useSettingsStore';
 
+import { useAuthStore } from '../../store/useAuthStore';
 export default function Login() {
-    const navigate = useNavigate();
+  const { user, isInitialized, loading: authLoading } = useAuthStore();
+  const navigate = useNavigate();
   const location = useLocation();
+  React.useEffect(() => {
+    if (isInitialized && !authLoading && user) {
+      navigate("/");
+    }
+  }, [user, isInitialized, authLoading, navigate]);
+
+  if (!isInitialized || authLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-slate-50">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-orange-600"></div>
+      </div>
+    );
+  }
   const [isLogin, setIsLogin] = useState(true);
   
   const [name, setName] = useState('');

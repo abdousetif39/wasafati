@@ -1,78 +1,5 @@
-import { useToast } from '../../../contexts/ToastContext';
-import React, { useState, useEffect } from 'react';
-import { useForm, useFieldArray, Controller } from 'react-hook-form';
-import { collection, addDoc, doc, updateDoc, getDoc, getDocs, query, where } from 'firebase/firestore';
-import { generateUniqueSlug } from '../../../lib/slug';
-import { db } from '../../../config/firebase';
-import { Recipe, Category, Ingredient, RecipeStep } from '../../../types';
-import { Button } from '../../../components/ui/Button';
-import { Input } from '../../../components/ui/Input';
-import { ImageUpload } from '../../../components/ui/ImageUpload';
-import { useNavigate, useParams } from 'react-router-dom';
-import { useAuthStore } from '../../../store/useAuthStore';
-import { Plus, Trash2, ArrowRight } from 'lucide-react';
-
-export default function UserRecipeForm() {
-  const toast = useToast();
-  const { user, isInitialized, loading: authLoading } = useAuthStore();
-
-
-
-    const { id } = useParams();
-  const navigate = useNavigate();
-  if (!isInitialized || authLoading) {
-    return (
-      <div className="min-h-screen flex flex-col items-center justify-center bg-slate-50">
-        <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-orange-600 mb-4"></div>
-        <p className="text-slate-500 font-medium">جارٍ التحقق من جلسة المستخدم...</p>
-      </div>
-    );
-  }
-
-  if (!user) {
-    navigate("/login");
-    return null;
-  }
-  const [loading, setLoading] = useState(false);
-  const [categories, setCategories] = useState<Category[]>([]);
-  const isEditing = Boolean(id);
-
-  const { register, control, handleSubmit, reset, watch, formState: { errors } } = useForm<Partial<Recipe>>({
-    defaultValues: {
-      title: '',  slug: '', shortDescription: '', 
-      description: '',  mainImage: '', gallery: [], categoryId: '',
-      tags: [], prepTime: 15, cookTime: 30, servings: 4, difficulty: 'medium',
-      ingredients: [{ name: '',  quantity: '', unit: '' }],
-      steps: [{ stepNumber: 1, title: '',  description: ''}],
-      status: 'pending', isPublished: false, isFeatured: false, authorId: ''
-    }
-  });
-
-  const { fields: ingFields, append: appendIng, remove: removeIng } = useFieldArray({ control, name: 'ingredients' });
-  const { fields: stepFields, append: appendStep, remove: removeStep } = useFieldArray({ control, name: 'steps' });
-
-  useEffect(() => {
-    const fetchCatsAndData = async () => {
-      const catSnap = await getDocs(collection(db, 'categories'));
-      setCategories(catSnap.docs.map(d => ({ id: d.id, ...d.data() } as Category)));
-
-      if (isEditing && id) {
-        const docSnap = await getDoc(doc(db, 'recipes', id));
-        if (docSnap.exists()) {
-          reset(docSnap.data());
-        } else {
-          toast.error('الوصفة غير موجودة');
-          navigate('/admin/recipes');
-        }
-      }
-    };
-    fetchCatsAndData();
-  }, [id, isEditing, reset, navigate]);
-
-  
-    const onSubmit = async (data: any) => {
-    setLoading(true);
-    try {
+#!/bin/bash
+cat << 'INNER_EOF' >> src/pages/public/recipes/UserRecipeForm.tsx
       const cleanData = { ...data };
       if (!cleanData.slug) {
         cleanData.slug = await generateUniqueSlug(cleanData.title || '', 'recipes', undefined, user.id);
@@ -232,3 +159,4 @@ export default function UserRecipeForm() {
     </div>
   );
 }
+INNER_EOF

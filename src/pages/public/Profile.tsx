@@ -21,7 +21,7 @@ import { algerianWilayas, getMunicipalities } from '../../lib/algeriaLocations';
 export default function Profile() {
   const toast = useToast();
   const { getCategorySlug } = useCategoriesStore();
-  const { user, isAdmin, logout, firebaseUser, setUser } = useAuthStore();
+  const { user, isAdmin, logout, firebaseUser, setUser, loading, isInitialized } = useAuthStore();
   const location = useLocation();
   const [searchParams] = useSearchParams();
   const [activeTab, setActiveTab] = useState<'info' | 'favorites' | 'my-recipes' | 'messages'>((location.state as any)?.activeTab || 'info');
@@ -60,6 +60,15 @@ export default function Profile() {
       fetchMyRecipes();
     }
   }, [activeTab, user?.id]);
+
+  if (!isInitialized || loading) {
+    return (
+      <div className="min-h-screen flex flex-col items-center justify-center bg-slate-50">
+        <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-orange-600 mb-4"></div>
+        <p className="text-slate-500 font-medium">جارٍ التحقق من جلسة المستخدم...</p>
+      </div>
+    );
+  }
 
   if (!user) {
     return <Navigate to="/login" replace />;
