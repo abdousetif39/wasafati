@@ -16,6 +16,10 @@
     {
       "source": "/categories/:categorySlug/:recipeSlug",
       "destination": "/api/recipe"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
     }
   ]
 }
