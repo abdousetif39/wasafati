@@ -1,7 +1,5 @@
-import { db } from './firebaseServer.ts';
+import { getServerDb } from './firebaseServer';
 import { collection, query, where, getDocs, limit } from 'firebase/firestore';
-import fs from 'fs';
-import path from 'path';
 
 export async function processDynamicSEO(reqUrl: string, host: string, rawHtml: string) {
   let html = rawHtml;
@@ -20,8 +18,16 @@ export async function processDynamicSEO(reqUrl: string, host: string, rawHtml: s
   if (!html.includes('og:locale')) {
     html = html.replace('</head>', `<meta property="og:locale" content="ar_DZ" />\n</head>`);
   }
-  if (!html.includes('twitter:title')) {
-     html = html.replace('</head>', `<meta name="twitter:title" content="وصفاتي" />\n<meta name="twitter:description" content="أفضل الوصفات لجميع الأذواق" />\n<meta name="twitter:image" content="${domain}/logo.png" />\n</head>`);
+  if (!html.includes('twitter:title')) { 
+    html = html.replace('</head>', `<meta name="twitter:title" content="وصفاتي" />\n<meta name="twitter:description" content="أفضل الوصفات لجميع الأذواق" />\n<meta name="twitter:image" content="${domain}/logo.png" />\n</head>`);
+  }
+
+  let db;
+  try {
+    db = getServerDb();
+  } catch (err) {
+    console.error('Error getting server db in seo.ts:', err);
+    return html; // Return without dynamic data if DB fails
   }
 
   // Add dynamic recipe SEO if it's a recipe page
@@ -35,6 +41,7 @@ export async function processDynamicSEO(reqUrl: string, host: string, rawHtml: s
       let categoryId = null;
       const qCat = query(collection(db, 'categories'), where('slug', '==', categorySlug), limit(1));
       const catSnap = await getDocs(qCat);
+      
       if (!catSnap.empty) {
         categoryId = catSnap.docs[0].id;
       }
@@ -113,6 +120,5 @@ export async function processDynamicSEO(reqUrl: string, host: string, rawHtml: s
       }
     } catch(e) { console.error("Dynamic settings SEO error:", e); }
   }
-
   return html;
 }

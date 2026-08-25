@@ -6,20 +6,28 @@
   },
   "rewrites": [
     {
+      "source": "/api/health",
+      "destination": "/api/index.ts"
+    },
+    {
+      "source": "/api/cloudinary-signature",
+      "destination": "/api/index.ts"
+    },
+    {
+      "source": "/api/cloudinary-delete",
+      "destination": "/api/index.ts"
+    },
+    {
       "source": "/sitemap.xml",
-      "destination": "/api"
+      "destination": "/api/index.ts"
     },
     {
       "source": "/robots.txt",
-      "destination": "/api"
-    },
-    {
-      "source": "/api/:path*",
-      "destination": "/api"
+      "destination": "/api/index.ts"
     },
     {
       "source": "/categories/:categorySlug/:recipeSlug",
-      "destination": "/api"
+      "destination": "/api/index.ts"
     }
   ]
 }

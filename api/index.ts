@@ -1,9 +1,11 @@
-import { app } from '../src/server/app.ts';
-import { processDynamicSEO } from '../src/server/seo.ts';
+console.log('Vercel function module loading');
+
+import { app } from '../src/server/app';
+import { processDynamicSEO } from '../src/server/seo';
 import fs from 'node:fs';
 import path from 'node:path';
 
-console.log('Vercel API function initialized');
+console.log('Express app imported successfully');
 
 app.use((req, res, next) => {
   console.log('API request:', req.method, req.url, req.originalUrl);
@@ -69,5 +71,7 @@ app.get('/api', async (req, res, next) => {
   }
   next();
 });
+
+console.log('Vercel function ready');
 
 export default app;

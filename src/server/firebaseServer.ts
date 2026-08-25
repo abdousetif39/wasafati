@@ -10,14 +10,22 @@ const firebaseConfig = {
   messagingSenderId: "1097085216661",
 };
 
-// Ensure Firebase is only initialized once in serverless environments
-const apps = getApps();
-const isInitialized = apps.some(a => a.name === 'serverApp');
+export const getServerDb = () => {
+  try {
+    const apps = getApps();
+    const isInitialized = apps.some(a => a.name === 'serverApp');
 
-export const app = isInitialized 
-  ? getApp('serverApp') 
-  : initializeApp(firebaseConfig, 'serverApp');
+    const app = isInitialized 
+      ? getApp('serverApp') 
+      : initializeApp(firebaseConfig, 'serverApp');
 
-export const db = isInitialized
-  ? getFirestore(app, "ai-studio-6180126a-591b-4f63-b44a-d513c9233feb")
-  : initializeFirestore(app, { experimentalAutoDetectLongPolling: true }, "ai-studio-6180126a-591b-4f63-b44a-d513c9233feb");
+    const db = isInitialized
+      ? getFirestore(app, "ai-studio-6180126a-591b-4f63-b44a-d513c9233feb")
+      : initializeFirestore(app, { experimentalAutoDetectLongPolling: true }, "ai-studio-6180126a-591b-4f63-b44a-d513c9233feb");
+    
+    return db;
+  } catch (err) {
+    console.error('Firebase Server Initialization Error:', err);
+    throw err;
+  }
+};
