@@ -6,10 +6,6 @@
   },
   "rewrites": [
     {
-      "source": "/api/health",
-      "destination": "/api/index.ts"
-    },
-    {
       "source": "/api/cloudinary-signature",
       "destination": "/api/index.ts"
     },
