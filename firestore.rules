@@ -1,0 +1,126 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    
+    function isAdmin() {
+      return isAuthenticated() && 
+         exists(/databases/$(database)/documents/users/$(request.auth.uid)) && 
+         get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';
+    }
+    
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+
+    match /users/{userId} {
+      allow read: if isOwner(userId) || isAdmin();
+      allow create: if isOwner(userId) && request.resource.data.role == 'user';
+      allow update: if isAdmin() || (isOwner(userId) && 
+         (!('role' in request.resource.data) || request.resource.data.role == resource.data.role) && 
+         (!('email' in request.resource.data) || request.resource.data.email == resource.data.email) &&
+        (!('createdAt' in request.resource.data) || request.resource.data.createdAt == resource.data.createdAt)
+      );
+      allow delete: if isAdmin();
+    }
+
+    match /publicProfiles/{userId} {
+      allow read: if true;
+      allow write: if isOwner(userId) || isAdmin();
+    }
+    
+    match /recipeUpdates/{updateId} {
+      allow read: if isAdmin() || (isAuthenticated() && resource.data.authorId == request.auth.uid);
+      allow create: if isAuthenticated() && request.resource.data.authorId == request.auth.uid;
+      allow update: if isAdmin();
+      allow delete: if isAdmin() || (isAuthenticated() && resource.data.authorId == request.auth.uid);
+    }
+        
+    // Chat System Rules
+    match /conversations/{conversationId} {
+      allow read: if isAdmin() || conversationId == 'user_' + request.auth.uid;
+      allow create: if isAdmin() || (isAuthenticated() && request.resource.data.userId == request.auth.uid && conversationId == 'user_' + request.auth.uid);
+      allow update: if isAdmin() || (isAuthenticated() && resource.data.userId == request.auth.uid);
+      allow delete: if isAdmin();
+      
+      match /messages/{messageId} {
+        allow read: if isAdmin() || conversationId == 'user_' + request.auth.uid;
+        allow create: if isAdmin() || (
+          isAuthenticated() && 
+          conversationId == 'user_' + request.auth.uid &&
+          request.resource.data.senderId == request.auth.uid &&
+          request.resource.data.senderRole == 'user'
+        );
+        allow update, delete: if isAdmin();
+      }
+    }
+
+    match /recipes/{recipeId} {
+      allow read: if (resource == null) || (resource.data.isPublished == true) || isAdmin() || (isAuthenticated() && resource.data.authorId == request.auth.uid);
+      
+      allow create: if isAdmin() || (isAuthenticated() && 
+          request.resource.data.authorId == request.auth.uid && 
+          (!('authorRole' in request.resource.data) || request.resource.data.authorRole == 'user') &&
+          request.resource.data.status == 'pending' && 
+          request.resource.data.isPublished == false
+      );
+      
+      allow update: if isAdmin() || (isAuthenticated() && 
+          resource.data.authorId == request.auth.uid && 
+          request.resource.data.authorId == resource.data.authorId &&
+          request.resource.data.authorRole == resource.data.authorRole &&
+          request.resource.data.createdById == resource.data.createdById &&
+          request.resource.data.createdByRole == resource.data.createdByRole &&
+          request.resource.data.updatedById == request.auth.uid &&
+          request.resource.data.status != 'approved' &&
+          request.resource.data.isPublished == false
+      );
+      
+      allow delete: if isAdmin();
+      
+      match /translations/{translationId} {
+        allow read: if true;
+        allow write: if isAdmin();
+      }
+    }
+    
+    match /categories/{categoryId} {
+      allow read: if true;
+      allow write: if isAdmin();
+      
+      match /translations/{translationId} {
+        allow read: if true;
+        allow write: if isAdmin();
+      }
+    }
+    
+    match /favorites/{favoriteId} {
+      allow read: if isAuthenticated() && resource.data.userId == request.auth.uid;
+      allow create: if isOwner(request.resource.data.userId);
+      allow delete: if isAdmin() || (resource != null && isOwner(resource.data.userId));
+      allow update: if false;
+    }
+    
+    match /activityLogs/{logId} {
+      allow read, create: if isAdmin();
+      allow update, delete: if false;
+    }
+    
+    match /settings/{document=**} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+    
+    match /contactMessages/{messageId} {
+      allow read, update, delete: if isAdmin();
+      allow create: if request.resource.data.keys().hasAll(['name', 'email', 'message', 'createdAt', 'status', 'subject']) && 
+                      request.resource.data.name is string && request.resource.data.name.size() < 100 &&
+                      request.resource.data.email is string && request.resource.data.email.matches('^.+@.+\\..+$') &&
+                      request.resource.data.message is string && request.resource.data.message.size() < 2000;
+    }
+  }
+}

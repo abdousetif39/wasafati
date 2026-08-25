@@ -1,0 +1,21 @@
+{
+  "name": "وصفاتي",
+  "short_name": "وصفاتي",
+  "description": "اكتشف أشهى الوصفات وألذ الأطباق",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#ea580c",
+  "icons": [
+    {
+      "src": "/favicon.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/favicon-small.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

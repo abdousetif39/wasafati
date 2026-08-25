@@ -1,0 +1,85 @@
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+@theme {
+  --font-sans: 'Tajawal', ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+}
+
+body {
+  font-family: var(--font-sans);
+}
+
+.prose {
+  text-align: right;
+  direction: rtl;
+}
+.prose h1, .prose h2, .prose h3, .prose h4, .prose p, .prose li {
+  letter-spacing: normal !important;
+  line-height: 1.8;
+}
+.prose h1, .prose h2, .prose h3 {
+  font-weight: 700;
+  color: var(--color-slate-900);
+}
+.prose a {
+  color: var(--color-orange-600);
+  text-decoration: none;
+}
+.prose a:hover {
+  text-decoration: underline;
+}
+
+
+
+
+@media print {
+  body {
+    background: white !important;
+    color: black !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+  
+  /* Hide elements we don't want to print */
+  .print-hidden,
+  nav,
+  footer,
+  button,
+  .no-print,
+  #modal-root,
+  .modal-backdrop,
+  [role="dialog"] {
+    display: none !important;
+    visibility: hidden !important;
+  }
+  
+  .recipe-print-area {
+    display: block !important;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    
+  }
+
+  img {
+    max-width: 100% !important;
+    height: auto !important;
+    page-break-inside: avoid;
+  }
+
+  h1, h2, h3 {
+    page-break-after: avoid;
+  }
+  p, li, .step-item {
+    page-break-inside: avoid;
+  }
+}
+
+html, body, #root {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+/* Safe areas for iOS */
+.safe-pt { padding-top: env(safe-area-inset-top); }
+.safe-pb { padding-bottom: env(safe-area-inset-bottom); }

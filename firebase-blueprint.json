@@ -1,0 +1,70 @@
+{
+  "projectInfo": {
+    "name": "Recipe Platform"
+  },
+  "collections": {
+    "users": {
+      "description": "User profiles and roles",
+      "fields": {
+        "email": { "type": "string" },
+        "displayName": { "type": "string" },
+        "role": { "type": "string" }, 
+        "createdAt": { "type": "timestamp" }
+      }
+    },
+    "recipes": {
+      "description": "Recipes data",
+      "fields": {
+        "titleAr": { "type": "string" },
+        "titleFr": { "type": "string" },
+        "slug": { "type": "string" },
+        "mainImage": { "type": "string" },
+        "categoryId": { "type": "string" },
+        "isPublished": { "type": "boolean" },
+        "createdAt": { "type": "timestamp" }
+      }
+    },
+    "categories": {
+      "description": "Recipe categories",
+      "fields": {
+        "nameAr": { "type": "string" },
+        "nameFr": { "type": "string" },
+        "slug": { "type": "string" },
+        "isActive": { "type": "boolean" }
+      }
+    },
+    "favorites": {
+      "description": "User favorites",
+      "fields": {
+        "userId": { "type": "string" },
+        "recipeId": { "type": "string" }
+      }
+    },
+    "activityLogs": {
+      "description": "Admin activity logs",
+      "fields": {
+        "userId": { "type": "string" },
+        "action": { "type": "string" },
+        "target": { "type": "string" },
+        "createdAt": { "type": "timestamp" }
+      }
+    },
+    "settings": {
+      "description": "Global settings",
+      "fields": {
+        "siteName": { "type": "string" },
+        "logoUrl": { "type": "string" }
+      }
+    },
+    "contactMessages": {
+      "description": "Contact form submissions",
+      "fields": {
+        "name": { "type": "string" },
+        "email": { "type": "string" },
+        "subject": { "type": "string" },
+        "message": { "type": "string" },
+        "createdAt": { "type": "timestamp" }
+      }
+    }
+  }
+}
