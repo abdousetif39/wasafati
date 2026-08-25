@@ -1,5 +1,5 @@
-import { initializeApp, getApps, getApp } from 'firebase/app';
-import { initializeFirestore, getFirestore } from 'firebase/firestore';
+import { initializeApp, getApps } from 'firebase/app';
+import { initializeFirestore, getFirestore, Firestore } from 'firebase/firestore';
 
 const firebaseConfig = {
   projectId: "gen-lang-client-0660389049",
@@ -10,20 +10,26 @@ const firebaseConfig = {
   messagingSenderId: "1097085216661",
 };
 
+let dbInstance: Firestore | null = null;
+
 export const getServerDb = () => {
+  if (dbInstance) return dbInstance;
+
   try {
     const apps = getApps();
-    const isInitialized = apps.some(a => a.name === 'serverApp');
-
-    const app = isInitialized 
-      ? getApp('serverApp') 
-      : initializeApp(firebaseConfig, 'serverApp');
-
-    const db = isInitialized
-      ? getFirestore(app, "ai-studio-6180126a-591b-4f63-b44a-d513c9233feb")
-      : initializeFirestore(app, { experimentalAutoDetectLongPolling: true }, "ai-studio-6180126a-591b-4f63-b44a-d513c9233feb");
+    const app = apps.find(a => a.name === 'wasafati-server') || initializeApp(firebaseConfig, 'wasafati-server');
     
-    return db;
+    try {
+      dbInstance = getFirestore(app, "ai-studio-6180126a-591b-4f63-b44a-d513c9233feb");
+    } catch {
+      dbInstance = initializeFirestore(
+        app,
+        { experimentalAutoDetectLongPolling: true },
+        "ai-studio-6180126a-591b-4f63-b44a-d513c9233feb"
+      );
+    }
+    
+    return dbInstance;
   } catch (err) {
     console.error('Firebase Server Initialization Error:', err);
     throw err;
