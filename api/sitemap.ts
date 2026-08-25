@@ -1,8 +1,8 @@
-import { getServerDb } from '../src/server/firebaseServer';
-import { collection, query, where, getDocs } from 'firebase/firestore';
-
 export default async function handler(req: any, res: any) {
   try {
+    const { getServerDb } = await import('../src/server/firebaseServer');
+    const { collection, query, where, getDocs } = await import('firebase/firestore');
+
     const host = req.headers.host || 'www.wasafati.online';
     const domain = process.env.SITE_URL ? process.env.SITE_URL.replace(/\/$/, '') : `https://${host}`;
 
@@ -14,9 +14,9 @@ export default async function handler(req: any, res: any) {
     let db;
     try {
       db = getServerDb();
-    } catch (dbErr) {
-      console.error('Firebase DB Error in Sitemap:', dbErr);
-      throw new Error('Failed to connect to database for sitemap');
+    } catch (dbErr: any) {
+      console.error('Firebase DB Error in Sitemap Initialization:', { code: dbErr?.code, message: dbErr?.message });
+      return res.status(500).json({ error: 'Failed to connect to database for sitemap', details: dbErr?.message });
     }
 
     const categoriesMap: Record<string, string> = {};
@@ -45,9 +45,9 @@ export default async function handler(req: any, res: any) {
     xml += `\n</urlset>`;
     
     res.setHeader('Content-Type', 'application/xml; charset=utf-8');
-    res.status(200).send(xml);
-  } catch (e) {
-    console.error('Sitemap generation error:', e);
-    res.status(500).send('Error generating sitemap');
+    return res.status(200).send(xml);
+  } catch (e: any) {
+    console.error('Sitemap generation error:', { code: e?.code, message: e?.message, stack: e?.stack });
+    return res.status(500).json({ error: 'Error generating sitemap', message: e?.message });
   }
 }

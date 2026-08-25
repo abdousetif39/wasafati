@@ -5,14 +5,8 @@ coverage/
 *.log
 .env*
 !.env.example
-node_modules/
 .env
 .env.local
 .env.*.local
-.DS_Store
-node_modules/
 dist/
 .vercel/
-.env
-.env.local
-.env.*.local

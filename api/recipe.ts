@@ -1,4 +1,3 @@
-import { processDynamicSEO } from '../src/server/seo';
 import fs from 'node:fs';
 import path from 'node:path';
 
@@ -13,6 +12,8 @@ export default async function handler(req: any, res: any) {
       console.error('Template not found at:', indexPath);
       html = '<!DOCTYPE html><html><head><title>وصفاتي</title></head><body><div id="root"></div><script type="module" src="/src/main.tsx"></script></body></html>';
     }
+
+    const { processDynamicSEO } = await import('../src/server/seo');
 
     // In Vercel, if rewrites are used with path segments (like /categories/:categorySlug/:recipeSlug),
     // they are populated in req.query. We reconstruct the path for the SEO processor.
@@ -32,9 +33,9 @@ export default async function handler(req: any, res: any) {
     
     res.setHeader('Content-Type', 'text/html; charset=utf-8');
     res.setHeader('Cache-Control', 's-maxage=60, stale-while-revalidate=300');
-    res.status(200).send(html);
-  } catch (err) {
-    console.error('Vercel Recipe Route error:', err);
-    res.status(500).send('Internal Server Error');
+    return res.status(200).send(html);
+  } catch (err: any) {
+    console.error('Vercel Recipe Route error:', { code: err?.code, message: err?.message, stack: err?.stack });
+    return res.status(500).json({ error: 'Internal Server Error', message: err?.message });
   }
 }
