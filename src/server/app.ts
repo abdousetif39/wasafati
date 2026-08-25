@@ -1,6 +1,6 @@
 import express from 'express';
 import { v2 as cloudinary } from 'cloudinary';
-import { db } from '../config/firebase';
+import { db } from './firebaseServer.ts';
 import { collection, query, where, getDocs, limit, doc, getDoc } from 'firebase/firestore';
 
 const app = express();
@@ -86,3 +86,17 @@ app.get('/robots.txt', (req, res) => {
 });
 
 export { app };
+
+app.get('/api/health', (req, res) => {
+  res.json({
+    ok: true,
+    runtime: "vercel"
+  });
+});
+
+app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
+  console.error('Express Error Handler:', err);
+  res.status(500).json({
+    error: 'Internal server error'
+  });
+});

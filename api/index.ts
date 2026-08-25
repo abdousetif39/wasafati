@@ -1,40 +1,73 @@
-import { app } from '../src/server/app';
-import { processDynamicSEO } from '../src/server/seo';
-import fs from 'fs';
-import path from 'path';
+import { app } from '../src/server/app.ts';
+import { processDynamicSEO } from '../src/server/seo.ts';
+import fs from 'node:fs';
+import path from 'node:path';
 
-// Expose processDynamicSEO as a route in the app specifically for Vercel SSR
+console.log('Vercel API function initialized');
+
+app.use((req, res, next) => {
+  console.log('API request:', req.method, req.url, req.originalUrl);
+  next();
+});
+
+const getDomain = (req: any) => {
+  if (process.env.SITE_URL) {
+    return process.env.SITE_URL.replace(/^https?:\/\//, '');
+  }
+  return req.headers.host || 'www.wasafati.online';
+};
+
 app.get('/categories/:categorySlug/:recipeSlug', async (req, res) => {
   try {
+    const indexPath = path.join(process.cwd(), 'dist', 'index.html');
     let html = '';
-    
-    // In Vercel, the includeFiles "dist/index.html" is placed relative to project root.
-    // __dirname in api/index.ts is /var/task/api. So dist/index.html is at ../dist/index.html
-    const distIndex = path.join(__dirname, '../dist/index.html');
-    const rootIndex = path.join(__dirname, '../index.html');
-    const cwdDist = path.join(process.cwd(), 'dist', 'index.html');
-    const cwdRoot = path.join(process.cwd(), 'index.html');
 
-    if (fs.existsSync(distIndex)) {
-        html = fs.readFileSync(distIndex, 'utf8');
-    } else if (fs.existsSync(rootIndex)) {
-        html = fs.readFileSync(rootIndex, 'utf8');
-    } else if (fs.existsSync(cwdDist)) {
-        html = fs.readFileSync(cwdDist, 'utf8');
-    } else if (fs.existsSync(cwdRoot)) {
-        html = fs.readFileSync(cwdRoot, 'utf8');
+    if (fs.existsSync(indexPath)) {
+      html = fs.readFileSync(indexPath, 'utf8');
     } else {
-        html = '<!DOCTYPE html><html><head><title>وصفاتي</title></head><body>Error loading template</body></html>';
+      console.error('Template not found at:', indexPath);
+      html = '<!DOCTYPE html><html><head><title>وصفاتي</title></head><body><div id="root"></div><script type="module" src="/src/main.tsx"></script></body></html>';
     }
+
+    const host = getDomain(req);
+    html = await processDynamicSEO(req.originalUrl || req.url, host, html);
     
-    html = await processDynamicSEO(req.originalUrl, req.headers.host || 'localhost', html);
     res.setHeader('Content-Type', 'text/html; charset=utf-8');
     res.setHeader('Cache-Control', 's-maxage=60, stale-while-revalidate=300');
     res.send(html);
   } catch (err) {
-    console.error(err);
-    res.status(500).send('Server Error');
+    console.error('Vercel API error:', err);
+    res.status(500).send('Internal Server Error');
   }
+});
+
+// Vercel catch-all fallback if rewritten directly to /api
+app.get('/api', async (req, res, next) => {
+  const originalUrl = req.originalUrl || req.url;
+  if (originalUrl.includes('/categories/')) {
+    try {
+      const indexPath = path.join(process.cwd(), 'dist', 'index.html');
+      let html = '';
+  
+      if (fs.existsSync(indexPath)) {
+        html = fs.readFileSync(indexPath, 'utf8');
+      } else {
+        console.error('Template not found at:', indexPath);
+        html = '<!DOCTYPE html><html><head><title>وصفاتي</title></head><body><div id="root"></div><script type="module" src="/src/main.tsx"></script></body></html>';
+      }
+  
+      const host = getDomain(req);
+      html = await processDynamicSEO(originalUrl, host, html);
+      
+      res.setHeader('Content-Type', 'text/html; charset=utf-8');
+      res.setHeader('Cache-Control', 's-maxage=60, stale-while-revalidate=300');
+      return res.send(html);
+    } catch (err) {
+      console.error('Vercel API error:', err);
+      return res.status(500).send('Internal Server Error');
+    }
+  }
+  next();
 });
 
 export default app;

@@ -1,4 +1,4 @@
-import { db } from '../config/firebase';
+import { db } from './firebaseServer.ts';
 import { collection, query, where, getDocs, limit } from 'firebase/firestore';
 import fs from 'fs';
 import path from 'path';
@@ -111,7 +111,7 @@ export async function processDynamicSEO(reqUrl: string, host: string, rawHtml: s
             html = html.replace(/<meta name="twitter:image" content=".*?"\s*\/>/, `<meta name="twitter:image" content="${imgUrl}" />`);
         }
       }
-    } catch(e) {}
+    } catch(e) { console.error("Dynamic settings SEO error:", e); }
   }
 
   return html;
