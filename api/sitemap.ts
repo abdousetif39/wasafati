@@ -1,8 +1,8 @@
+import { getServerDb } from '../src/server/firebaseServer';
+import { collection, query, where, getDocs } from 'firebase/firestore';
+
 export default async function handler(req: any, res: any) {
   try {
-    const { getServerDb } = await import('../src/server/firebaseServer');
-    const { collection, query, where, getDocs } = await import('firebase/firestore');
-
     const host = req.headers.host || 'www.wasafati.online';
     const domain = process.env.SITE_URL ? process.env.SITE_URL.replace(/\/$/, '') : `https://${host}`;
 
