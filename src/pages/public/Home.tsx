@@ -9,6 +9,7 @@ import { db } from '../../config/firebase';
 import { Recipe, Category } from '../../types';
 import { RecipeLink } from '../../components/recipe/RecipeLink';
 import { Link, useNavigate } from 'react-router-dom';
+import { getResponsiveImageProps } from '../../lib/cloudinary';
 import { Clock, Users, ArrowLeft, Search, Image as ImageIcon, Share2, Facebook, Twitter, MessageCircle, Link as LinkIcon } from 'lucide-react';
 
 export default function Home() {
@@ -76,12 +77,21 @@ export default function Home() {
       {/* Hero Section */}
       <section className="relative rounded-3xl bg-gradient-to-r from-orange-600 to-amber-500 overflow-hidden shadow-lg mx-4 mt-8 lg:mx-auto max-w-5xl">
         <div className="absolute inset-0 z-0">
-          <img key={settings?.heroImage || "fallback"} src={settings?.heroImage || "https://images.unsplash.com/photo-1495195134817-a1a288965631?q=80&w=2070&auto=format&fit=crop"} alt="" className="w-full h-full object-cover mix-blend-overlay opacity-40" />
+          <img 
+            key={settings?.heroImage || "fallback"} 
+            {...getResponsiveImageProps(settings?.heroImage || "https://images.unsplash.com/photo-1495195134817-a1a288965631?q=80&w=2070&auto=format&fit=crop", 1200)} 
+            sizes="(max-width: 1024px) 100vw, 1024px"
+            alt="" 
+            className="w-full h-full object-cover mix-blend-overlay opacity-40"
+            fetchPriority="high"
+            width="1024"
+            height="400"
+          />
         </div>
         
         <div className="relative z-10 p-10 md:p-14 flex flex-col justify-center text-center max-w-2xl mx-auto text-white">
           <h1 className="text-4xl md:text-5xl font-extrabold mb-4 leading-tight">أهلاً بك في وصفاتي</h1>
-          <p className="text-orange-50 mb-8 text-lg opacity-90">أفضل الوصفات لجميع الأذواق</p>
+          <p className="text-orange-50 mb-8 text-lg">أفضل الوصفات لجميع الأذواق</p>
           
           <form onSubmit={handleSearch} className="bg-white/10 backdrop-blur-md p-2 rounded-2xl flex flex-col sm:flex-row items-stretch sm:items-center shadow-sm max-w-2xl mx-auto border border-white/20 w-full gap-2">
             <input type="text" id="search" name="search" aria-label="بحث" placeholder="ابحث عن وصفة..." 
@@ -125,7 +135,7 @@ export default function Home() {
             <h3 className="text-2xl font-bold text-slate-800 mb-1">أشهر التصنيفات</h3>
             <p className="text-sm text-slate-500">استكشف أشهى التصنيفات</p>
           </div>
-          <Link to="/categories" className="text-sm font-medium text-orange-600 hover:text-orange-700 flex items-center gap-1 group">عرض الكل<ArrowLeft className="w-4 h-4 rtl:rotate-180 transform group-hover:-translate-x-1 transition-transform" />
+          <Link to="/categories" className="text-sm font-medium text-orange-600 hover:text-orange-700 flex items-center gap-1 group" aria-label="عرض الكل"><span aria-hidden="true">عرض الكل</span><ArrowLeft className="w-4 h-4 rtl:rotate-180 transform group-hover:-translate-x-1 transition-transform" />
           </Link>
         </div>
         
@@ -137,7 +147,15 @@ export default function Home() {
               <Link key={category.id} to={`/categories/${category.slug}`} className="group text-center">
                 <div className="aspect-square rounded-2xl overflow-hidden mb-3 relative bg-slate-100 border border-slate-100">
                   {category.imageUrl ? (
-                    <img src={optimizeCloudinaryUrl(category.imageUrl)} alt={category.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                    <img
+                      {...getResponsiveImageProps(category.imageUrl, 320)}
+                      sizes="(max-width: 768px) 50vw, (max-width: 1024px) 33vw, 160px"
+                      alt={category.name}
+                      loading="lazy"
+                      width="320"
+                      height="320"
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    />
                   ) : (
                     <div className="w-full h-full flex items-center justify-center text-slate-300 bg-slate-100">
                       <ImageIcon className="w-8 h-8 opacity-20" />
@@ -161,7 +179,7 @@ export default function Home() {
             <h3 className="text-2xl font-bold text-slate-800 mb-1">وصفات مميزة</h3>
             <p className="text-sm text-slate-500">أحدث الوصفات</p>
           </div>
-          <Link to="/recipes" className="text-sm font-medium text-orange-600 hover:text-orange-700 flex items-center gap-1 group">عرض الكل<ArrowLeft className="w-4 h-4 rtl:rotate-180 transform group-hover:-translate-x-1 transition-transform" />
+          <Link to="/recipes" className="text-sm font-medium text-orange-600 hover:text-orange-700 flex items-center gap-1 group" aria-label="عرض الكل"><span aria-hidden="true">عرض الكل</span><ArrowLeft className="w-4 h-4 rtl:rotate-180 transform group-hover:-translate-x-1 transition-transform" />
           </Link>
         </div>
 
@@ -175,7 +193,15 @@ export default function Home() {
               <RecipeLink key={recipe.id} recipe={recipe} className="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden hover:shadow-md transition-shadow group cursor-pointer flex flex-col">
                 <div className="relative h-48 overflow-hidden bg-slate-100">
                   {recipe.mainImage ? (
-                    <img src={optimizeCloudinaryUrl(recipe.mainImage)} alt={recipe.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                    <img
+                      {...getResponsiveImageProps(recipe.mainImage, 640)}
+                      sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 320px"
+                      alt={recipe.title}
+                      loading="lazy"
+                      width="640"
+                      height="426"
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    />
                   ) : (
                     <div className="w-full h-full flex items-center justify-center bg-slate-100">
                       <ImageIcon className="w-12 h-12 text-slate-300" />

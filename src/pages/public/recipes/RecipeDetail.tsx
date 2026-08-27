@@ -6,6 +6,7 @@ import { AdSenseSlot } from '../../../components/ads/AdSenseSlot';
 import { useToast } from '../../../contexts/ToastContext';
 import React, { useState, useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
+import { getResponsiveImageProps } from '../../../lib/cloudinary';
 import { useCategoriesStore } from '../../../store/useCategoriesStore';
 import { collection, query, where, getDocs, doc, getDoc, addDoc, deleteDoc, updateDoc, increment , limit } from 'firebase/firestore';
 import { db } from '../../../config/firebase';
@@ -298,13 +299,27 @@ export default function RecipeDetail() {
         {/* Hero Section */}
         <div className="bg-white rounded-3xl overflow-hidden shadow-sm border border-slate-200 mb-8 print:border-none print:shadow-none print:rounded-none">
           <div className="aspect-video w-full relative bg-slate-100">
-            <img src={optimizeCloudinaryUrl(activeImage || recipe.mainImage)} alt={recipe.title} className="w-full h-full object-contain" />
+            <img 
+              {...getResponsiveImageProps(activeImage || recipe.mainImage, 800)} 
+              sizes="(max-width: 1024px) 100vw, 800px"
+              alt={recipe.title} 
+              width="800"
+              height="533"
+              className="w-full h-full object-contain"
+            />
             
             {recipe.gallery && recipe.gallery.length > 0 && (
               <div className="absolute bottom-4 right-4 flex gap-2">
                 {[recipe.mainImage, ...recipe.gallery].map((img, idx) => (
                   <div key={idx} onClick={() => setActiveImage(img)} className="w-16 h-16 rounded-lg border-2 border-white overflow-hidden shadow-md cursor-pointer hover:scale-110 transition-transform">
-                    <img src={optimizeCloudinaryUrl(img)} alt={`Gallery ${idx}`} className="w-full h-full object-cover" />
+                    <img 
+                      {...getResponsiveImageProps(img, 150)} 
+                      alt={`Gallery ${idx}`} 
+                      loading="lazy"
+                      width="150"
+                      height="150"
+                      className="w-full h-full object-cover"
+                    />
                   </div>
                 ))}
               </div>
@@ -321,7 +336,14 @@ export default function RecipeDetail() {
               author.profileSlug ? (
                 <Link to={`/profile/${author.profileSlug}`} className="flex items-center gap-3 mb-6 bg-white p-2 pr-4 rounded-full w-fit shadow-sm border border-slate-100 hover:shadow-md transition-shadow group">
                   {author.photoURL ? (
-                    <img src={optimizeCloudinaryUrl(author.photoURL)} alt={author.displayName} className="w-10 h-10 rounded-full object-cover" />
+                    <img 
+                      {...getResponsiveImageProps(author.photoURL, 40)} 
+                      alt={author.displayName} 
+                      loading="lazy"
+                      width="40"
+                      height="40"
+                      className="w-10 h-10 rounded-full object-cover"
+                    />
                   ) : (
                     <div className="w-10 h-10 bg-orange-100 text-orange-600 rounded-full flex items-center justify-center font-bold">
                       {author.displayName?.charAt(0).toUpperCase()}
@@ -335,7 +357,14 @@ export default function RecipeDetail() {
               ) : (
                 <div className="flex items-center gap-3 mb-6 bg-white p-2 pr-4 rounded-full w-fit shadow-sm border border-slate-100">
                   {author.photoURL ? (
-                    <img src={optimizeCloudinaryUrl(author.photoURL)} alt={author.displayName} className="w-10 h-10 rounded-full object-cover" />
+                    <img 
+                      {...getResponsiveImageProps(author.photoURL, 40)} 
+                      alt={author.displayName} 
+                      loading="lazy"
+                      width="40"
+                      height="40"
+                      className="w-10 h-10 rounded-full object-cover"
+                    />
                   ) : (
                     <div className="w-10 h-10 bg-orange-100 text-orange-600 rounded-full flex items-center justify-center font-bold">
                       {author.displayName?.charAt(0).toUpperCase()}
@@ -455,7 +484,16 @@ export default function RecipeDetail() {
                       {i !== recipe.steps.length - 1 && <div className="w-px h-full bg-slate-100 my-2"></div>}
                     </div>
                     <div className="pb-8">
-                      {step.imageUrl && (<img src={optimizeCloudinaryUrl(step.imageUrl)} alt={step.title || 'Step ' + step.stepNumber} className="w-full max-w-sm h-auto rounded-xl mb-4 object-cover shadow-sm" />)}
+                      {step.imageUrl && (
+                        <img 
+                          {...getResponsiveImageProps(step.imageUrl, 400)} 
+                          alt={step.title || 'Step ' + step.stepNumber} 
+                          loading="lazy"
+                          width="400"
+                          height="300"
+                          className="w-full max-w-sm h-auto rounded-xl mb-4 object-cover shadow-sm"
+                        />
+                      )}
                       {(step.title) && (
                         <h3 className="text-xl font-bold text-slate-900 mb-3">
                           {step.title}
@@ -482,7 +520,15 @@ export default function RecipeDetail() {
           <div className="border-b-2 border-slate-200 mb-6"></div>
           <h2 className="text-3xl font-bold mb-4">{recipe.title}</h2>
           {recipe.mainImage && (
-            <img src={optimizeCloudinaryUrl(recipe.mainImage)} alt={recipe.title} className="w-full max-w-2xl mx-auto h-auto rounded-lg mb-6" />
+            <img 
+              {...getResponsiveImageProps(recipe.mainImage, 800)} 
+              sizes="(max-width: 1024px) 100vw, 800px"
+              alt={recipe.title} 
+              fetchPriority="high"
+              width="800"
+              height="533"
+              className="w-full max-w-2xl mx-auto h-auto rounded-lg mb-6 shadow-sm object-cover"
+            />
           )}
           <p className="text-lg text-slate-700 mb-6">{recipe.description}</p>
         </div>

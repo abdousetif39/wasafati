@@ -3,6 +3,7 @@ import { collection, query, where, getDocs, orderBy } from 'firebase/firestore';
 import { db } from '../../../config/firebase';
 import { Category } from '../../../types';
 import { Link } from 'react-router-dom';
+import { getResponsiveImageProps } from '../../../lib/cloudinary';
 import { ArrowLeft } from 'lucide-react';
 
 export default function CategoryListPublic() {
@@ -51,7 +52,15 @@ export default function CategoryListPublic() {
               <div className="aspect-square rounded-3xl overflow-hidden mb-4 relative bg-slate-100 shadow-sm border border-slate-200">
                 {category.imageUrl ? (
                   <>
-                    <img src={category.imageUrl} alt={category.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                    <img
+                      {...getResponsiveImageProps(category.imageUrl, 320)}
+                      sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 320px"
+                      alt={category.name}
+                      loading="lazy"
+                      width="320"
+                      height="320"
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                   </>
                 ) : (

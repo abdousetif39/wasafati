@@ -5,6 +5,7 @@ import { collection, query, where, getDocs, orderBy } from 'firebase/firestore';
 import { db } from '../../../config/firebase';
 import { Recipe, Category } from '../../../types';
 import { Link } from 'react-router-dom';
+import { getResponsiveImageProps } from '../../../lib/cloudinary';
 import { RecipeLink } from '../../../components/recipe/RecipeLink';
 import { Clock, Users, Search, ArrowLeft } from 'lucide-react';
 
@@ -104,7 +105,15 @@ export default function RecipeListPublic() {
           {filteredRecipes.map(recipe => (
             <RecipeLink key={recipe.id} recipe={recipe} className="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden hover:shadow-md transition-shadow group cursor-pointer flex flex-col">
               <div className="relative h-48 overflow-hidden bg-slate-100">
-                <img src={optimizeCloudinaryUrl(recipe.mainImage)} alt={recipe.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                <img
+                  {...getResponsiveImageProps(recipe.mainImage, 640)}
+                  sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 320px"
+                  alt={recipe.title}
+                  loading="lazy"
+                  width="640"
+                  height="426"
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                />
                 <div className="absolute top-3 right-3 bg-white/90 backdrop-blur-sm px-2.5 py-1 rounded-lg flex items-center gap-1 shadow-sm">
                   <span className="text-xs font-bold text-slate-700">
                     {categories.find(c => c.id === recipe.categoryId)?.name || 'الوصفة'}
