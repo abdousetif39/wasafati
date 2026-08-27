@@ -44,6 +44,7 @@ const LoadingFallback = () => (
 );
 
 function App() {
+  const user = useAuthStore((state) => state.user);
   const initializeAuth = useAuthStore((state) => state.initialize);
   const fetchSettings = useSettingsStore((state) => state.fetchSettings);
   const fetchCategories = useCategoriesStore((state) => state.fetchCategories);
@@ -60,7 +61,7 @@ function App() {
         <ConfirmProvider>
           <BrowserRouter>
             <Suspense fallback={<LoadingFallback />}>
-              <MessageNotificationListener />
+              {user && <MessageNotificationListener />}
               <Routes>
                 {/* Auth */}
                 <Route path="/login" element={<Login />} />

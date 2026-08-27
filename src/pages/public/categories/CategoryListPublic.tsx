@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useCategoriesStore } from '../../../store/useCategoriesStore';
 import { collection, query, where, getDocs, orderBy } from 'firebase/firestore';
 import { db } from '../../../config/firebase';
 import { Category } from '../../../types';
@@ -7,27 +8,12 @@ import { getResponsiveImageProps } from '../../../lib/cloudinary';
 import { ArrowLeft } from 'lucide-react';
 
 export default function CategoryListPublic() {
-    const [categories, setCategories] = useState<Category[]>([]);
-  const [loading, setLoading] = useState(true);
+  const storeCategories = useCategoriesStore(state => state.categories);
+  const loading = useCategoriesStore(state => state.loading);
+  const categories = storeCategories.filter(c => c.isActive);
   
   
 
-  useEffect(() => {
-    const fetchCategories = async () => {
-      try {
-        const q = query(collection(db, 'categories'), where('isActive', '==', true));
-        const snapshot = await getDocs(q);
-        const data = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })) as Category[];
-        setCategories(data);
-      } catch (error) {
-        if ((error as any)?.code !== 'permission-denied') { console.error('Error fetching categories:', error); }
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchCategories();
-  }, []);
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">

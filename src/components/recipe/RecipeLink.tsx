@@ -13,6 +13,7 @@ interface RecipeLinkProps {
 
 export const RecipeLink: React.FC<RecipeLinkProps> = ({ recipe, className, children }) => {
   const categories = useCategoriesStore(state => state.categories);
+  const isLoading = useCategoriesStore(state => state.loading);
   const [catSlug, setCatSlug] = useState<string | null>(null);
 
   useEffect(() => {
@@ -20,19 +21,19 @@ export const RecipeLink: React.FC<RecipeLinkProps> = ({ recipe, className, child
     const cat = categories.find(c => c.id === recipe.categoryId);
     if (cat) {
       setCatSlug(cat.slug);
-    } else {
+    } else if (!isLoading && categories.length > 0) {
       // Fetch it if not found in store
       getDoc(doc(db, 'categories', recipe.categoryId)).then(docSnap => {
         if (docSnap.exists()) {
           setCatSlug(docSnap.data().slug);
-        } else {
+    } else if (!isLoading && categories.length > 0) {
           setCatSlug('uncategorized'); // Fallback if category actually doesn't exist
         }
       }).catch(() => {
         setCatSlug('uncategorized');
       });
     }
-  }, [recipe, categories]);
+  }, [recipe, categories, isLoading]);
 
   // If we don't have the category slug yet, we can fallback to the old /recipes/:slug URL
   // which is correctly handled by RecipeDetail to redirect to the new URL once loaded.

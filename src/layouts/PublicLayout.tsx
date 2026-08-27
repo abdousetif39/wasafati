@@ -14,7 +14,7 @@ import { cn } from '../lib/utils';
 function Navbar() {
     const { user, isAdmin } = useAuthStore();
   const [unreadChatCount, setUnreadChatCount] = useState(0);
-  const { settings } = useSettingsStore();
+  const { settings, loading: settingsLoading } = useSettingsStore();
   const location = useLocation();
   const { fetchCategories } = useCategoriesStore();
 
@@ -57,7 +57,9 @@ function Navbar() {
         <div className="flex justify-between items-center py-4">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-3" aria-label="الصفحة الرئيسية">
-            {settings?.logoUrl ? (
+            {settingsLoading ? (
+                <div className="h-[52px] md:h-[58px] lg:h-[64px] w-32 bg-slate-100 rounded-lg animate-pulse"></div>
+            ) : settings?.logoUrl ? (
                 <img src={optimizeCloudinaryUrl(settings.logoUrl, 200)} alt={settings?.siteName || "وصفاتي"} width="150" height="64" className="h-[52px] md:h-[58px] lg:h-[64px] w-auto object-contain" />
             ) : (
                 <div className="flex items-center gap-2">
@@ -183,14 +185,16 @@ function Navbar() {
 }
 
 function Footer() {
-  const { settings } = useSettingsStore();
+  const { settings, loading: settingsLoading } = useSettingsStore();
     return (
     <footer className="bg-slate-900 text-white pt-16 pb-8 print-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
           <div className="col-span-1 md:col-span-2">
             <Link to="/" className="flex items-center gap-2 mb-4" aria-label="الصفحة الرئيسية">
-              {settings?.logoUrl ? (
+            {settingsLoading ? (
+                <div className="h-[52px] md:h-[58px] lg:h-[64px] w-32 bg-slate-100 rounded-lg animate-pulse"></div>
+            ) : settings?.logoUrl ? (
                 <img src={optimizeCloudinaryUrl(settings.logoUrl, 200)} alt={settings?.siteName || "وصفاتي"} width="150" height="64" className="h-[52px] md:h-[58px] lg:h-[64px] w-auto object-contain" />
               ) : (
                 <ChefHat className="h-8 w-8 text-orange-600" />

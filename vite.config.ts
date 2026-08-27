@@ -11,8 +11,11 @@ export default defineConfig(() => {
         output: {
           manualChunks: {
             "vendor-react": ["react", "react-dom", "react-router-dom"],
-            "vendor-firebase": ["firebase/app", "firebase/auth", "firebase/firestore", "firebase/storage"],
-            "vendor-ui": ["lucide-react", "react-helmet-async"]
+            "vendor-firebase-app": ["firebase/app"],
+            "vendor-firebase-auth": ["firebase/auth"],
+            "vendor-firebase-firestore": ["firebase/firestore"],
+            "vendor-firebase-storage": ["firebase/storage"],
+            "vendor-ui": ["react-helmet-async"]
           }
         }
       }

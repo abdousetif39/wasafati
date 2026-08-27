@@ -18,7 +18,8 @@ export default function Home() {
     const { getCategorySlug } = useCategoriesStore();
   const navigate = useNavigate();
   const [featuredRecipes, setFeaturedRecipes] = useState<Recipe[]>([]);
-  const [categories, setCategories] = useState<Category[]>([]);
+  const storeCategories = useCategoriesStore(state => state.categories);
+  const categories = storeCategories.filter(c => c.isActive).slice(0, 8);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
 
@@ -28,15 +29,12 @@ export default function Home() {
     const fetchHomeData = async () => {
       try {
         // Fetch featured recipes
-        const qRecipes = query(collection(db, 'recipes'), where('isPublished', '==', true));
+        const qRecipes = query(collection(db, 'recipes'), where('isFeatured', '==', true), limit(20));
         const recipeSnap = await getDocs(qRecipes);
         const allPub = recipeSnap.docs.map(d => ({ id: d.id, ...d.data() } as Recipe));
-        setFeaturedRecipes(allPub.filter(r => r.isFeatured).slice(0, 6));
+        setFeaturedRecipes(allPub.filter(r => r.isPublished).slice(0, 6));
 
         // Fetch active categories
-        const qCats = query(collection(db, 'categories'), where('isActive', '==', true));
-        const catSnap = await getDocs(qCats);
-        setCategories(catSnap.docs.map(d => ({ id: d.id, ...d.data() } as Category)).slice(0, 8));
       } catch (error) {
         if ((error as any)?.code !== 'permission-denied') { console.error("Error fetching home data:", error); }
       } finally {
