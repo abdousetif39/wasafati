@@ -29,7 +29,7 @@ export function getResponsiveImageProps(url: string, baseWidth: number = 640) {
   }
 
   const src = optimizeCloudinaryUrl(url, baseWidth);
-  const widths = [320, 480, 640, 800, 1024, 1200, 1600];
+  const widths = [160, 240, 320, 480, 640, 800, 1024, 1200, 1600];
   const srcSet = widths
     .map((w) => `${optimizeCloudinaryUrl(url, w)} ${w}w`)
     .join(', ');

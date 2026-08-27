@@ -14,6 +14,9 @@ export async function processDynamicSEO(reqUrl: string, host: string, rawHtml: s
   let html = rawHtml;
   const domain = `https://${host}`;
 
+let _cachedSettings = null;
+let _cachedSettingsTime = 0;
+let _recipeCache = new Map();
   let db;
   try {
     db = getServerDb();
@@ -42,6 +45,12 @@ export async function processDynamicSEO(reqUrl: string, host: string, rawHtml: s
       if (categoryId) {
         // 2. Find recipe
         let recipeData: any = null;
+        const now = Date.now();
+        const cacheKey = categoryId + "_" + recipeSlug;
+        const cached = _recipeCache.get(cacheKey);
+        if (cached && (now - cached.time < 60000)) {
+          recipeData = cached.data;
+        } else {
         const qRecipe = query(collection(db, 'recipes'), where('categoryId', '==', categoryId), where('slug', '==', recipeSlug), where('isPublished', '==', true), limit(1));
         const recipeSnap = await getDocs(qRecipe);
         
@@ -55,6 +64,11 @@ export async function processDynamicSEO(reqUrl: string, host: string, rawHtml: s
             recipeData = prevSnap.docs[0].data();
           }
         }
+
+        if (recipeData) {
+          _recipeCache.set(cacheKey, { time: now, data: recipeData });
+        }
+        } // end of else block
 
         if (recipeData) {
           let recipeTitle = recipeData.seoTitle || recipeData.title || '';
@@ -130,9 +144,19 @@ export async function processDynamicSEO(reqUrl: string, host: string, rawHtml: s
   } else {
     // Dynamic settings for non-recipe pages
     try {
-      const settingsDoc = await getDocs(query(collection(db, 'settings'), limit(1)));
-      if (!settingsDoc.empty) {
-        const settings = settingsDoc.docs[0].data();
+      let settings = null;
+      const now = Date.now();
+      if (_cachedSettings && (now - _cachedSettingsTime < 60000)) {
+        settings = _cachedSettings;
+      } else {
+        const settingsDoc = await getDocs(query(collection(db, 'settings'), limit(1)));
+        if (!settingsDoc.empty) {
+          settings = settingsDoc.docs[0].data();
+          _cachedSettings = settings;
+          _cachedSettingsTime = now;
+        }
+      }
+      if (settings) {
         let siteName = settings.siteName ? escapeHtml(settings.siteName) : "وصفاتي";
         let desc = settings.description ? escapeHtml(settings.description) : "أفضل الوصفات لجميع الأذواق";
         
