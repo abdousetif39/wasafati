@@ -94,7 +94,7 @@ function Navbar() {
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder='البحث...' className="w-64 bg-slate-100 border-none rounded-full py-2.5 pr-11 pl-4 text-sm focus:ring-2 focus:ring-orange-500/20 focus:outline-none transition-all" 
               />
-              <button type="submit" className="absolute right-3 top-2.5 text-slate-500 hover:text-orange-600 transition-colors">
+              <button type="submit" aria-label="بحث" className="absolute p-2 right-1 top-1 text-slate-500 hover:text-orange-600 transition-colors">
                 <Search className="w-5 h-5" />
               </button>
             </form>
@@ -147,7 +147,7 @@ function Navbar() {
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder='البحث...' className="w-full bg-slate-100 border-none rounded-xl py-3 pr-11 pl-4 text-sm focus:ring-2 focus:ring-orange-500/20 focus:outline-none transition-all" 
             />
-            <button type="submit" className="absolute right-3 top-3 text-slate-500 hover:text-orange-600 transition-colors">
+            <button type="submit" aria-label="بحث" className="absolute p-2 right-1 top-1 text-slate-500 hover:text-orange-600 transition-colors">
               <Search className="w-5 h-5" />
             </button>
           </form>
@@ -200,29 +200,29 @@ function Footer() {
                 <ChefHat className="h-8 w-8 text-orange-600" />
               )}
             </Link>
-            <p className="text-slate-500 max-w-sm">أفضل الوصفات لجميع الأذواق</p>
+            <p className="text-slate-400 max-w-sm">أفضل الوصفات لجميع الأذواق</p>
           </div>
           <div>
-            <h3 className="text-lg font-semibold mb-4">وصفات مميزة روابط</h3>
+            <h2 className="text-lg font-semibold mb-4 text-white">وصفات مميزة روابط</h2>
             <ul className="space-y-3">
-              <li><Link to="/recipes" className="text-slate-500 hover:text-white transition-colors">الوصفات</Link></li>
-              <li><Link to="/categories" className="text-slate-500 hover:text-white transition-colors">التصنيفات</Link></li>
-              <li><Link to="/about" className="text-slate-500 hover:text-white transition-colors">عن الموقع</Link></li>
-              <li><Link to="/contact" className="text-slate-500 hover:text-white transition-colors">تواصل معنا</Link></li>
+              <li><Link to="/recipes" className="text-slate-400 hover:text-white transition-colors">الوصفات</Link></li>
+              <li><Link to="/categories" className="text-slate-400 hover:text-white transition-colors">التصنيفات</Link></li>
+              <li><Link to="/about" className="text-slate-400 hover:text-white transition-colors">عن الموقع</Link></li>
+              <li><Link to="/contact" className="text-slate-400 hover:text-white transition-colors">تواصل معنا</Link></li>
             </ul>
           </div>
           <div>
-            <h3 className="text-lg font-semibold mb-4">قانوني</h3>
+            <h2 className="text-lg font-semibold mb-4 text-white">قانوني</h2>
             <ul className="space-y-3">
-              <li><Link to="/privacy" className="text-slate-500 hover:text-white transition-colors">سياسة الخصوصية</Link></li>
-              <li><Link to="/terms" className="text-slate-500 hover:text-white transition-colors">شروط الاستخدام</Link></li>
-              <li><Link to="/cookies" className="text-slate-500 hover:text-white transition-colors">ملفات تعريف الارتباط</Link></li>
-              <li><Link to="/disclaimer" className="text-slate-500 hover:text-white transition-colors">إخلاء المسؤولية</Link></li>
+              <li><Link to="/privacy" className="text-slate-400 hover:text-white transition-colors">سياسة الخصوصية</Link></li>
+              <li><Link to="/terms" className="text-slate-400 hover:text-white transition-colors">شروط الاستخدام</Link></li>
+              <li><Link to="/cookies" className="text-slate-400 hover:text-white transition-colors">ملفات تعريف الارتباط</Link></li>
+              <li><Link to="/disclaimer" className="text-slate-400 hover:text-white transition-colors">إخلاء المسؤولية</Link></li>
             </ul>
           </div>
         </div>
         <div className="border-t border-slate-800 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-slate-500 text-sm">© {new Date().getFullYear()} {settings?.siteName || 'وصفاتي'}. جميع الحقوق محفوظة.</p>
+          <p className="text-slate-400 text-sm">© {new Date().getFullYear()} {settings?.siteName || 'وصفاتي'}. جميع الحقوق محفوظة.</p>
         </div>
       </div>
     </footer>

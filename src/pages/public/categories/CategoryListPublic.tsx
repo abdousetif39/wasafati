@@ -41,7 +41,7 @@ export default function CategoryListPublic() {
                     <img
                       {...getResponsiveImageProps(category.imageUrl, 320)}
                       sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 320px"
-                      alt={category.name}
+                      alt=""
                       loading="lazy"
                       width="320"
                       height="320"

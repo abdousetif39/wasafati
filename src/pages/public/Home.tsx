@@ -77,7 +77,7 @@ export default function Home() {
         <div className="absolute inset-0 z-0">
           <img 
             key={settings?.heroImage || "fallback"} 
-            {...getResponsiveImageProps(settings?.heroImage || "https://images.unsplash.com/photo-1495195134817-a1a288965631?q=80&w=2070&auto=format&fit=crop", 1200)} 
+            {...getResponsiveImageProps(settings?.heroImage || "/logo.png", 1200)} 
             sizes="(max-width: 1024px) 100vw, 1024px"
             alt="" 
             className="w-full h-full object-cover mix-blend-overlay opacity-40"
@@ -130,7 +130,7 @@ export default function Home() {
       <section className="mt-16 max-w-5xl mx-auto px-4 lg:px-0">
         <div className="flex justify-between items-end mb-8">
           <div>
-            <h3 className="text-2xl font-bold text-slate-800 mb-1">أشهر التصنيفات</h3>
+            <h2 className="text-2xl font-bold text-slate-800 mb-1">أشهر التصنيفات</h2>
             <p className="text-sm text-slate-500">استكشف أشهى التصنيفات</p>
           </div>
           <Link to="/categories" className="text-sm font-medium text-orange-600 hover:text-orange-700 flex items-center gap-1 group" aria-label="عرض كل التصنيفات"><span aria-hidden="true">عرض الكل</span><ArrowLeft className="w-4 h-4 rtl:rotate-180 transform group-hover:-translate-x-1 transition-transform" />
@@ -148,7 +148,7 @@ export default function Home() {
                     <img
                       {...getResponsiveImageProps(category.imageUrl, 320)}
                       sizes="(max-width: 768px) 50vw, (max-width: 1024px) 33vw, 160px"
-                      alt={category.name}
+                      alt=""
                       loading="lazy"
                       width="320"
                       height="320"
@@ -174,10 +174,10 @@ export default function Home() {
       <section className="mt-16 max-w-5xl mx-auto px-4 lg:px-0">
         <div className="flex justify-between items-end mb-8">
           <div>
-            <h3 className="text-2xl font-bold text-slate-800 mb-1">وصفات مميزة</h3>
+            <h2 className="text-2xl font-bold text-slate-800 mb-1">وصفات مميزة</h2>
             <p className="text-sm text-slate-500">أحدث الوصفات</p>
           </div>
-          <Link to="/recipes" className="text-sm font-medium text-orange-600 hover:text-orange-700 flex items-center gap-1 group" aria-label="عرض كل التصنيفات"><span aria-hidden="true">عرض الكل</span><ArrowLeft className="w-4 h-4 rtl:rotate-180 transform group-hover:-translate-x-1 transition-transform" />
+          <Link to="/recipes" className="text-sm font-medium text-orange-600 hover:text-orange-700 flex items-center gap-1 group" aria-label="عرض كل الوصفات"><span aria-hidden="true">عرض الكل</span><ArrowLeft className="w-4 h-4 rtl:rotate-180 transform group-hover:-translate-x-1 transition-transform" />
           </Link>
         </div>
 
