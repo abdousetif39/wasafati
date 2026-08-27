@@ -126,7 +126,7 @@ export default function RecipeForm() {
   return (
     <div className="max-w-5xl mx-auto space-y-6 pb-20">
       <div className="flex items-center gap-4 bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
-        <button onClick={() => navigate(-1)} className="p-2 text-slate-400 hover:text-slate-900 transition-colors">
+        <button onClick={() => navigate(-1)} className="p-2 text-slate-500 hover:text-slate-900 transition-colors">
           <ArrowRight className="w-6 h-6 rtl:rotate-180" />
         </button>
         <div>

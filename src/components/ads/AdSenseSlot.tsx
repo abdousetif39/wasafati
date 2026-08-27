@@ -43,7 +43,7 @@ export const AdSenseSlot: React.FC<AdSenseSlotProps> = ({
 
   if (isDev) {
     return (
-      <div className={`bg-slate-100 border border-dashed border-slate-300 flex items-center justify-center text-slate-400 text-sm ${className}`} style={{ minHeight: '100px', ...style }}>
+      <div className={`bg-slate-100 border border-dashed border-slate-300 flex items-center justify-center text-slate-500 text-sm ${className}`} style={{ minHeight: '100px', ...style }}>
         AdSense Placeholder (Slot: {slot})
       </div>
     );

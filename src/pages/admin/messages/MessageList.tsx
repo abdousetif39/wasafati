@@ -76,7 +76,7 @@ export default function MessageList() {
               onChange={(e) => setSearchQuery(e.target.value)}
               className="w-full pl-10 pr-4 py-2 rounded-xl border border-slate-200 focus:border-orange-500 focus:ring-1 focus:ring-orange-500 outline-none transition-all text-sm"
             />
-            <Search className="w-5 h-5 text-slate-400 absolute left-3 top-2.5 rtl:right-3 rtl:left-auto" />
+            <Search className="w-5 h-5 text-slate-500 absolute left-3 top-2.5 rtl:right-3 rtl:left-auto" />
           </div>
         </div>
         
@@ -140,7 +140,7 @@ export default function MessageList() {
             </div>
           </>
         ) : (
-          <div className="flex-1 flex flex-col items-center justify-center text-slate-400 p-8">
+          <div className="flex-1 flex flex-col items-center justify-center text-slate-500 p-8">
             <div className="w-20 h-20 bg-slate-50 rounded-full flex items-center justify-center mb-4">
               <AlignLeft className="w-10 h-10 text-slate-300" />
             </div>

@@ -387,17 +387,17 @@ export default function RecipeDetail() {
 
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 py-6 border-y border-slate-100 mb-8">
               <div className="flex flex-col items-center justify-center p-4 bg-slate-50 rounded-2xl">
-                <Clock className="w-6 h-6 text-slate-400 mb-2" />
+                <Clock className="w-6 h-6 text-slate-500 mb-2" />
                 <span className="text-sm text-slate-500">وقت التحضير</span>
                 <span className="font-bold text-slate-900">{recipe.prepTime} دقيقة</span>
               </div>
               <div className="flex flex-col items-center justify-center p-4 bg-slate-50 rounded-2xl">
-                <Flame className="w-6 h-6 text-slate-400 mb-2" />
+                <Flame className="w-6 h-6 text-slate-500 mb-2" />
                 <span className="text-sm text-slate-500">وقت الطبخ</span>
                 <span className="font-bold text-slate-900">{recipe.cookTime} دقيقة</span>
               </div>
               <div className="flex flex-col items-center justify-center p-4 bg-slate-50 rounded-2xl">
-                <Users className="w-6 h-6 text-slate-400 mb-2" />
+                <Users className="w-6 h-6 text-slate-500 mb-2" />
                 <span className="text-sm text-slate-500">الحصص</span>
                 <span className="font-bold text-slate-900">{recipe.servings * servingMultiplier}</span>
               </div>

@@ -111,7 +111,7 @@ export default function Dashboard() {
                     <span className={`px-3 py-1 rounded-full text-xs font-medium ${recipe.isPublished ? 'bg-emerald-100 text-emerald-700' : 'bg-amber-100 text-amber-700'}`}>
                       {recipe.isPublished ? 'منشورة' : 'مسودات'}
                     </span>
-                    <Link to={`/admin/recipes/edit/${recipe.id}`} className="p-2 text-slate-400 hover:text-indigo-600 bg-white shadow-sm border border-slate-100 rounded-lg transition-colors">
+                    <Link to={`/admin/recipes/edit/${recipe.id}`} className="p-2 text-slate-500 hover:text-indigo-600 bg-white shadow-sm border border-slate-100 rounded-lg transition-colors">
                       <ArrowUpRight className="w-4 h-4 rtl:rotate-45" />
                     </Link>
                   </div>

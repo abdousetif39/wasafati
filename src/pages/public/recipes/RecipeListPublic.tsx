@@ -69,7 +69,7 @@ export default function RecipeListPublic() {
             onChange={(e) => setSearchQuery(e.target.value)}
             className="w-full pl-10 pr-4 py-3 rounded-xl border-slate-200 bg-white shadow-sm focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 transition-all outline-none"
           />
-          <Search className="absolute left-3 top-3.5 text-slate-400 w-5 h-5 rtl:right-3 rtl:left-auto" />
+          <Search className="absolute left-3 top-3.5 text-slate-500 w-5 h-5 rtl:right-3 rtl:left-auto" />
         </div>
         <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-hide">
           <button

@@ -107,7 +107,7 @@ export default function RecipeUpdateList() {
   if (loading) return <div className="p-8 text-center">جاري التحميل...</div>;
 
   const renderStringDiff = (oldStr: string | undefined, newStr: string | undefined) => {
-    if (oldStr === newStr) return <span className="text-slate-400 text-sm">لم يتغير</span>;
+    if (oldStr === newStr) return <span className="text-slate-500 text-sm">لم يتغير</span>;
     return (
       <div className="space-y-1 mt-1">
         <div className="text-red-500 line-through text-sm">{oldStr || 'لا يوجد'}</div>
@@ -261,7 +261,7 @@ export default function RecipeUpdateList() {
                     {renderStringDiff(selectedUpdate.originalData.description, selectedUpdate.proposedData.description)}
                   </div>
                   <div><strong className="block text-xs text-slate-500 mb-1">الصورة الرئيسية:</strong>
-                    {selectedUpdate.proposedData.mainImage === selectedUpdate.originalData.mainImage ? <span className="text-slate-400 text-sm">لم تتغير</span> : (
+                    {selectedUpdate.proposedData.mainImage === selectedUpdate.originalData.mainImage ? <span className="text-slate-500 text-sm">لم تتغير</span> : (
                       <div className="flex gap-2 items-center">
                         {selectedUpdate.originalData.mainImage && <img src={selectedUpdate.originalData.mainImage} alt="old" className="w-16 h-16 object-cover rounded opacity-50 line-through" />}
                         <span>↔</span>
@@ -280,7 +280,7 @@ export default function RecipeUpdateList() {
                     {renderStringDiff(selectedUpdate.originalData.categoryId, selectedUpdate.proposedData.categoryId)}
                   </div>
                   <div><strong className="block text-xs text-slate-500 mb-1">المكونات:</strong>
-                    {JSON.stringify(selectedUpdate.proposedData.ingredients) === JSON.stringify(selectedUpdate.originalData.ingredients) ? <span className="text-slate-400 text-sm">لم تتغير</span> : (
+                    {JSON.stringify(selectedUpdate.proposedData.ingredients) === JSON.stringify(selectedUpdate.originalData.ingredients) ? <span className="text-slate-500 text-sm">لم تتغير</span> : (
                       <ul className="text-sm mt-1 space-y-1">
                         {/* Simple array diff visualization */}
                         {selectedUpdate.proposedData.ingredients?.map((ing, i) => {
@@ -296,7 +296,7 @@ export default function RecipeUpdateList() {
                     )}
                   </div>
                   <div><strong className="block text-xs text-slate-500 mb-1">الخطوات:</strong>
-                    {JSON.stringify(selectedUpdate.proposedData.steps) === JSON.stringify(selectedUpdate.originalData.steps) ? <span className="text-slate-400 text-sm">لم تتغير</span> : (
+                    {JSON.stringify(selectedUpdate.proposedData.steps) === JSON.stringify(selectedUpdate.originalData.steps) ? <span className="text-slate-500 text-sm">لم تتغير</span> : (
                       <div className="text-sm mt-1 space-y-2">
                          {selectedUpdate.proposedData.steps?.map((step, i) => {
                              const oldStep = selectedUpdate.originalData.steps?.[i];
@@ -311,7 +311,7 @@ export default function RecipeUpdateList() {
                     )}
                   </div>
                   <div><strong className="block text-xs text-slate-500 mb-1">معرض الصور:</strong>
-                    {JSON.stringify(selectedUpdate.proposedData.gallery) === JSON.stringify(selectedUpdate.originalData.gallery) ? <span className="text-slate-400 text-sm">لم يتغير</span> : (
+                    {JSON.stringify(selectedUpdate.proposedData.gallery) === JSON.stringify(selectedUpdate.originalData.gallery) ? <span className="text-slate-500 text-sm">لم يتغير</span> : (
                       <div className="flex flex-wrap gap-2 mt-1">
                         {selectedUpdate.proposedData.gallery?.map((img, i) => {
                            const isNew = !selectedUpdate.originalData.gallery?.includes(img);

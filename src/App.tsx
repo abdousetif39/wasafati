@@ -1,17 +1,19 @@
 import React, { useEffect, Suspense } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { PublicLayout } from './layouts/PublicLayout';
-import { AdminLayout } from './layouts/AdminLayout';
+// AdminLayout removed from static imports
 import Home from './pages/public/Home';
 import { useAuthStore } from './store/useAuthStore';
 import { useSettingsStore } from './store/useSettingsStore';
 import { useCategoriesStore } from './store/useCategoriesStore';
 import { HelmetProvider } from 'react-helmet-async';
-import { MessageNotificationListener } from './components/chat/MessageNotificationListener';
+// MessageNotificationListener removed from static imports
 import { ToastProvider } from './contexts/ToastContext';
 import { ConfirmProvider } from './contexts/ConfirmContext';
 
 // Lazy loaded components
+const MessageNotificationListener = React.lazy(() => import('./components/chat/MessageNotificationListener').then(m => ({ default: m.MessageNotificationListener })));
+const AdminLayout = React.lazy(() => import('./layouts/AdminLayout').then(m => ({ default: m.AdminLayout })));
 const Dashboard = React.lazy(() => import('./pages/admin/Dashboard'));
 const CategoryList = React.lazy(() => import('./pages/admin/categories/CategoryList'));
 const RecipeList = React.lazy(() => import('./pages/admin/recipes/RecipeList'));
@@ -57,8 +59,8 @@ function App() {
       <ToastProvider>
         <ConfirmProvider>
           <BrowserRouter>
-            <MessageNotificationListener />
             <Suspense fallback={<LoadingFallback />}>
+              <MessageNotificationListener />
               <Routes>
                 {/* Auth */}
                 <Route path="/login" element={<Login />} />

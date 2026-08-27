@@ -108,16 +108,16 @@ export default function Home() {
               <Share2 className="w-4 h-4" /> شارك الموقع مع أصدقائك
             </span>
             <div className="flex gap-3">
-              <a href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.href)}`} target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-md flex items-center justify-center transition-all hover:scale-110" aria-label="Share on Facebook">
+              <a href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.href)}`} target="_blank" rel="noopener noreferrer" className="w-11 h-11 rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-md flex items-center justify-center transition-all hover:scale-110" aria-label="Share on Facebook">
                 <Facebook className="w-5 h-5 text-white" />
               </a>
-              <a href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(window.location.href)}&text=${encodeURIComponent(settings?.description || 'اكتشف أفضل الوصفات')}`} target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-md flex items-center justify-center transition-all hover:scale-110" aria-label="Share on Twitter">
+              <a href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(window.location.href)}&text=${encodeURIComponent(settings?.description || 'اكتشف أفضل الوصفات')}`} target="_blank" rel="noopener noreferrer" className="w-11 h-11 rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-md flex items-center justify-center transition-all hover:scale-110" aria-label="Share on Twitter">
                 <Twitter className="w-5 h-5 text-white" />
               </a>
-              <a href={`https://api.whatsapp.com/send?text=${encodeURIComponent((settings?.description || 'اكتشف أفضل الوصفات') + ' ' + window.location.href)}`} target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-md flex items-center justify-center transition-all hover:scale-110" aria-label="Share on WhatsApp">
+              <a href={`https://api.whatsapp.com/send?text=${encodeURIComponent((settings?.description || 'اكتشف أفضل الوصفات') + ' ' + window.location.href)}`} target="_blank" rel="noopener noreferrer" className="w-11 h-11 rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-md flex items-center justify-center transition-all hover:scale-110" aria-label="Share on WhatsApp">
                 <MessageCircle className="w-5 h-5 text-white" />
               </a>
-              <button onClick={handleShareSite} className="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-md flex items-center justify-center transition-all hover:scale-110" aria-label="Copy link">
+              <button onClick={handleShareSite} className="w-11 h-11 rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-md flex items-center justify-center transition-all hover:scale-110" aria-label="Copy link">
                 <LinkIcon className="w-5 h-5 text-white" />
               </button>
             </div>
@@ -135,7 +135,7 @@ export default function Home() {
             <h3 className="text-2xl font-bold text-slate-800 mb-1">أشهر التصنيفات</h3>
             <p className="text-sm text-slate-500">استكشف أشهى التصنيفات</p>
           </div>
-          <Link to="/categories" className="text-sm font-medium text-orange-600 hover:text-orange-700 flex items-center gap-1 group" aria-label="عرض الكل"><span aria-hidden="true">عرض الكل</span><ArrowLeft className="w-4 h-4 rtl:rotate-180 transform group-hover:-translate-x-1 transition-transform" />
+          <Link to="/categories" className="text-sm font-medium text-orange-600 hover:text-orange-700 flex items-center gap-1 group" aria-label="عرض كل التصنيفات"><span aria-hidden="true">عرض الكل</span><ArrowLeft className="w-4 h-4 rtl:rotate-180 transform group-hover:-translate-x-1 transition-transform" />
           </Link>
         </div>
         
@@ -179,7 +179,7 @@ export default function Home() {
             <h3 className="text-2xl font-bold text-slate-800 mb-1">وصفات مميزة</h3>
             <p className="text-sm text-slate-500">أحدث الوصفات</p>
           </div>
-          <Link to="/recipes" className="text-sm font-medium text-orange-600 hover:text-orange-700 flex items-center gap-1 group" aria-label="عرض الكل"><span aria-hidden="true">عرض الكل</span><ArrowLeft className="w-4 h-4 rtl:rotate-180 transform group-hover:-translate-x-1 transition-transform" />
+          <Link to="/recipes" className="text-sm font-medium text-orange-600 hover:text-orange-700 flex items-center gap-1 group" aria-label="عرض كل التصنيفات"><span aria-hidden="true">عرض الكل</span><ArrowLeft className="w-4 h-4 rtl:rotate-180 transform group-hover:-translate-x-1 transition-transform" />
           </Link>
         </div>
 

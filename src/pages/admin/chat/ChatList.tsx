@@ -187,7 +187,7 @@ export default function ChatList() {
         <div className="p-4 border-b border-slate-200 bg-slate-50">
           <h2 className="font-bold text-slate-800 mb-3">المستخدمون</h2>
           <div className="relative">
-            <Search className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 w-4 h-4" />
+            <Search className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 w-4 h-4" />
             <input type="text" id="search" name="search" aria-label="بحث" placeholder="ابحث عن مستخدم..."
               value={searchQuery}
               onChange={e => setSearchQuery(e.target.value)}
@@ -277,7 +277,7 @@ export default function ChatList() {
                     <div key={msg.id} className={`flex ${isAdmin ? 'justify-start' : 'justify-end'}`}>
                       <div className={`max-w-[75%] rounded-2xl p-4 ${isAdmin ? 'bg-orange-100 text-orange-900 rounded-tr-sm' : 'bg-white border border-slate-200 text-slate-800 rounded-tl-sm shadow-sm'}`}>
                         <div className="whitespace-pre-wrap text-sm leading-relaxed break-words">{msg.text}</div>
-                        <div className={`text-[10px] mt-2 text-left ${isAdmin ? 'text-orange-500' : 'text-slate-400'}`} dir="ltr">
+                        <div className={`text-[10px] mt-2 text-left ${isAdmin ? 'text-orange-500' : 'text-slate-500'}`} dir="ltr">
                           {new Date(msg.createdAt).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}
                         </div>
                       </div>
@@ -331,7 +331,7 @@ export default function ChatList() {
             </form>
           </>
         ) : (
-          <div className="h-full flex flex-col items-center justify-center text-slate-400 bg-white">
+          <div className="h-full flex flex-col items-center justify-center text-slate-500 bg-white">
             <MessageSquare className="w-16 h-16 mb-4 text-slate-200" />
             <p className="text-lg">اختر محادثة للبدء</p>
           </div>

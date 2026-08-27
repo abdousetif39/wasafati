@@ -62,7 +62,7 @@ export default function UserList() {
               onChange={(e) => setSearchQuery(e.target.value)}
               className="w-full pl-10 pr-4 py-2 rounded-xl border border-slate-200 focus:border-orange-500 focus:ring-1 focus:ring-orange-500 outline-none transition-all text-sm"
             />
-            <Search className="w-5 h-5 text-slate-400 absolute left-3 top-2.5 rtl:right-3 rtl:left-auto" />
+            <Search className="w-5 h-5 text-slate-500 absolute left-3 top-2.5 rtl:right-3 rtl:left-auto" />
           </div>
         </div>
 

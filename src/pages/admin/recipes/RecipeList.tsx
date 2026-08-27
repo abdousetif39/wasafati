@@ -107,7 +107,7 @@ export default function RecipeList() {
 
       <div className="bg-white p-4 rounded-2xl shadow-sm border border-slate-100 flex gap-4">
         <div className="relative flex-1 max-w-md">
-          <Search className="w-5 h-5 absolute right-3 top-1/2 -translate-y-1/2 text-slate-400" />
+          <Search className="w-5 h-5 absolute right-3 top-1/2 -translate-y-1/2 text-slate-500" />
           <input type="text" id="search" name="search" aria-label="بحث" placeholder="ابحث عن وصفة..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
@@ -152,7 +152,7 @@ export default function RecipeList() {
                     </td>
                     <td className="px-6 py-4 text-slate-600">
                       {recipe.authorRole === 'admin' ? 'الإدارة' : recipe.authorId ? (authorUsers[recipe.authorId]?.displayName || 'مستخدم غير معروف') : 'الإدارة'}
-                      <span className="block text-xs text-slate-400">{recipe.authorRole === 'admin' ? 'مدير' : 'مستخدم'}</span>
+                      <span className="block text-xs text-slate-500">{recipe.authorRole === 'admin' ? 'مدير' : 'مستخدم'}</span>
                     </td>
                     <td className="px-6 py-4 text-slate-600">
                       {recipe.updatedById ? (authorUsers[recipe.updatedById]?.displayName || (recipe.updatedByRole === 'admin' ? 'الإدارة' : 'مستخدم')) : '-'}

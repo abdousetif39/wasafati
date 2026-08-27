@@ -77,7 +77,7 @@ export default function Search() {
             onChange={(e) => setSearchQuery(e.target.value)}
             className="w-full pl-12 pr-4 py-4 text-lg rounded-2xl border-slate-200 bg-white shadow-sm focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 transition-all outline-none"
           />
-          <SearchIcon className="absolute left-4 top-4.5 text-slate-400 w-6 h-6 rtl:right-4 rtl:left-auto" style={{top: '18px'}} />
+          <SearchIcon className="absolute left-4 top-4.5 text-slate-500 w-6 h-6 rtl:right-4 rtl:left-auto" style={{top: '18px'}} />
           <button type="submit" className="absolute left-3 top-2.5 bottom-2.5 bg-orange-600 hover:bg-orange-700 text-white px-6 rounded-xl font-medium transition-colors rtl:right-auto rtl:left-3">بحث</button>
         </form>
       </div>
@@ -85,7 +85,7 @@ export default function Search() {
       {initialQuery && (
         <div className="mb-8">
           <h2 className="text-xl font-bold text-slate-800">
-            Search results for "{initialQuery}" <span className="text-slate-500 font-normal text-sm ml-2">({filteredRecipes.length} نتائج)</span>
+            نتائج البحث عن "{initialQuery}" <span className="text-slate-500 font-normal text-sm ml-2">({filteredRecipes.length} نتائج)</span>
           </h2>
         </div>
       )}

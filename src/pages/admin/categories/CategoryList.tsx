@@ -106,7 +106,7 @@ export default function CategoryList() {
                       {category.imageUrl ? (
                         <img src={category.imageUrl} alt={category.name} className="w-12 h-12 rounded-lg object-cover bg-slate-100" />
                       ) : (
-                        <div className="w-12 h-12 rounded-lg bg-slate-100 flex items-center justify-center text-slate-400">
+                        <div className="w-12 h-12 rounded-lg bg-slate-100 flex items-center justify-center text-slate-500">
                           <TagIcon className="w-5 h-5" />
                         </div>
                       )}

@@ -187,7 +187,7 @@ export default function UserChat() {
                    <span className="font-bold text-xs">{isUser ? 'أنت' : 'الإدارة'}</span>
                 </div>
                 <div className="whitespace-pre-wrap text-sm leading-relaxed break-words">{msg.text}</div>
-                <div className="text-[10px] text-slate-400 mt-2 text-left" dir="ltr">
+                <div className="text-[10px] text-slate-500 mt-2 text-left" dir="ltr">
                   {new Date(msg.createdAt).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}
                 </div>
               </div>

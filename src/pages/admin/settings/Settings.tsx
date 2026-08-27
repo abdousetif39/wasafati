@@ -158,7 +158,7 @@ export default function Settings() {
                         control={control}
                         name={page.id as keyof SettingsType}
                         render={({ field: { value } }) => (
-                          value ? <MarkdownContent content={value as string} className="!text-sm" /> : <p className="text-slate-400 text-sm">المعاينة ستظهر هنا...</p>
+                          value ? <MarkdownContent content={value as string} className="!text-sm" /> : <p className="text-slate-500 text-sm">المعاينة ستظهر هنا...</p>
                         )}
                       />
                     </div>
