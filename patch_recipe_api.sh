@@ -1,3 +1,5 @@
+#!/bin/bash
+cat << 'INNER_EOF' > api/recipe.ts
 import fs from 'node:fs';
 import path from 'node:path';
 
@@ -207,3 +209,4 @@ export default async function handler(req: any, res: any) {
     });
   }
 }
+INNER_EOF

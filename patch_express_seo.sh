@@ -1,3 +1,5 @@
+#!/bin/bash
+cat << 'INNER_EOF' > src/server/seo.ts
 import { getServerDb } from './firebaseServer';
 import { collection, query, where, getDocs, limit } from 'firebase/firestore';
 
@@ -164,8 +166,6 @@ export async function processDynamicSEO(reqUrl: string, host: string, rawHtml: s
     <meta property="og:image" content="${ogImage}">
     <meta property="og:url" content="${currentUrl}">
     <meta property="og:type" content="website">
-    <meta property="og:site_name" content="وصفاتي">
-    <meta property="og:locale" content="ar_DZ">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="${siteName}">
     <meta name="twitter:description" content="${desc}">
@@ -178,3 +178,4 @@ export async function processDynamicSEO(reqUrl: string, host: string, rawHtml: s
 
   return html;
 }
+INNER_EOF

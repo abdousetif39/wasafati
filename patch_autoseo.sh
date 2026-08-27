@@ -1,3 +1,5 @@
+#!/bin/bash
+cat << 'INNER_EOF' > src/components/seo/AutoSEO.tsx
 import React from 'react';
 import { SEO } from './SEO';
 import { Recipe, Category } from '../../types';
@@ -94,3 +96,4 @@ export const AutoSEO: React.FC<AutoSEOProps> = ({ recipe, category, type, author
     />
   );
 };
+INNER_EOF
